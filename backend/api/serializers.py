@@ -1,8 +1,8 @@
-from rest_framework import serializers
-from rest_framework.relations import SlugRelatedField
 from drf_extra_fields.fields import Base64ImageField
 from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipes,
                             Tag)
+from rest_framework import serializers
+from rest_framework.relations import SlugRelatedField
 from users.models import User
 
 

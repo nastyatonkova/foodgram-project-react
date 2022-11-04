@@ -1,7 +1,7 @@
+from api.serializers import RecipeSmallSerializer
 from rest_framework import serializers
 
 from users.models import Subscriptions, User
-from api.serializers import RecipeSmallSerializer
 
 
 class UserShowSerializer(serializers.ModelSerializer):
