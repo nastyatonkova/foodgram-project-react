@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from users.models import Subscriptions, User
+from api.serializers import RecipeSmallSerializer
 
 
 class UserShowSerializer(serializers.ModelSerializer):
@@ -129,3 +130,33 @@ class TokenSerializer(serializers.Serializer):
     """TokenSerializer."""
     username = serializers.CharField(max_length=150)
     confirmation_code = serializers.CharField(max_length=24)
+
+
+class SubShowSerializer(UserShowSerializer):
+
+    """Serializer to output user/user list."""
+    email = serializers.ReadOnlyField(source='following.email')
+    username = serializers.ReadOnlyField(source='following.username')
+    first_name = serializers.ReadOnlyField(source='following.first_name')
+    last_name = serializers.ReadOnlyField(source='following.last_name')
+    is_subscribed = serializers.SerializerMethodField()
+    recipes = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = (
+            'email',
+            'username',
+            'first_name',
+            'last_name',
+            'is_subscribed',
+            'recipes',
+        )
+
+    def get_is_subscribed(self, username):
+        """If we request this method, we are subscribed to user"""
+        return True
+
+    def get_recipes(self, data):
+        recipes = data.following.recipes.all()[:5]
+        return RecipeSmallSerializer(recipes, many=True).data

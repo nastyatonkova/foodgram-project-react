@@ -7,6 +7,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from users.models import Subscriptions
+from users.serializers import SubShowSerializer
 
 
 class CustomUserViewSet(UserViewSet):
@@ -28,22 +29,27 @@ class CustomUserViewSet(UserViewSet):
                 following=user
         )
         if request.method == 'POST':
-            if follow.exists() or user == request.user:
+            if user == request.user:
                 error = {
-                    'errors': (
-                        'Are you trying to subscribe to yourself, or you '
-                        'are already subscribed to this user.')
+                    'errors': 'Are you trying to subscribe to yourself.'
                 }
                 return Response(error, status=status.HTTP_400_BAD_REQUEST)
-            Subscriptions(
+            obj, created = Subscriptions.objects.get_or_create(
                 user=request.user,
                 following=user
-            ).save()
-            return Response(status=status.HTTP_201_CREATED)
+            )
+            if not created:
+                error = {
+                    'errors': 'You are already subscribed to this user.'
+                }
+                follow.delete()
+                return Response(error, status=status.HTTP_400_BAD_REQUEST)
+            serializer = SubShowSerializer(obj, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         if not follow.exists():
             error = {
-                'errors': 'You were not subscribed to this person.'
+                'errors': 'You were not subscribed to this user.'
             }
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
         follow.delete()

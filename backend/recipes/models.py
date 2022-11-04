@@ -71,7 +71,8 @@ class Recipes(models.Model):
     )
     tags = models.ManyToManyField(
         Tag,
-        verbose_name="Ingredients"
+        verbose_name="Ingredients",
+        related_name='recipes',
     )
     text = models.TextField(
         "Recipe description",
@@ -87,11 +88,13 @@ class Recipes(models.Model):
         User,
         verbose_name='Recipe author',
         on_delete=models.CASCADE,
+        related_name='recipes',
     )
     pub_date = models.DateTimeField(
         "Recipe publication date",
         auto_now_add=True,
-        db_index=True)
+        db_index=True
+    )
 
     class Meta:
         ordering = ('-pub_date',)
