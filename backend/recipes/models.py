@@ -40,6 +40,11 @@ class Tag(models.Model):
         unique=True,
     )
 
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tags'
+
 
 class Recipes(models.Model):
     """Prescription list table model."""
@@ -103,6 +108,11 @@ class IngredientInRecipe(models.Model):
         "Number of ingredients",
         default=1,
     )
+
+    class Meta:
+        ordering = ('ingredient',)
+        verbose_name = 'Ingredient'
+        verbose_name_plural = 'Ingredients'
 
     def __str__(self):
         return f'{self.ingredient} {self.recipe}'
