@@ -58,10 +58,11 @@ class Recipes(models.Model):
         "Recipe name",
         max_length=200,
     )
-    image = models.TextField(
+    image = models.ImageField(
         "Image",
-        blank=True,
+        upload_to='recipes/',
         null=True,
+        blank=True
     )
     ingredients = models.ManyToManyField(
         to=Ingredient,
