@@ -115,15 +115,15 @@ class RecipesSerializer(serializers.ModelSerializer):
 
 
 class RecipeSmallSerializer(serializers.ModelSerializer):
-
     """Serializer to display a list of recipes in subscriptions."""
+
     class Meta:
         fields = (
             'id',
             'name',
             'image',
             'cooking_time'
-            )
+        )
         model = Recipes
 
 
