@@ -23,6 +23,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+
     """User Serializer."""
     class Meta:
         model = User
@@ -30,6 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class TagsSerializer(serializers.ModelSerializer):
+
     """Tag Serializer."""
     class Meta:
         model = Tag
@@ -37,6 +39,7 @@ class TagsSerializer(serializers.ModelSerializer):
 
 
 class IngredientsSerializer(serializers.ModelSerializer):
+
     """Ingredients Serializer."""
     class Meta:
         model = Ingredient
@@ -66,6 +69,7 @@ class FavoritedSerializer(serializers.ModelSerializer):
 
 
 class RecipesSerializer(serializers.ModelSerializer):
+
     """Recipes Serializer."""
     author = UserSerializer(
         many=False,
@@ -111,6 +115,7 @@ class RecipesSerializer(serializers.ModelSerializer):
 
 
 class RecipesSerializerCreate(serializers.ModelSerializer):
+
     """Recipe Creation Serializer."""
     author = UserSerializer(
         many=False,

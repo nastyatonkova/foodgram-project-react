@@ -3,7 +3,28 @@ from rest_framework import serializers
 from users.models import User
 
 
+class UserShowSerializer(serializers.ModelSerializer):
+
+    """Serializer to output user/user list."""
+    email = serializers.EmailField(required=True)
+    username = serializers.CharField(max_length=150, required=True)
+    first_name = serializers.CharField(max_length=150, required=True)
+    last_name = serializers.CharField(max_length=150, required=True)
+
+    class Meta:
+        model = User
+        fields = (
+            'email',
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+        )
+
+
 class UserSerializer(serializers.ModelSerializer):
+
+    """Basic custom user serializer with additional fields."""
     email = serializers.EmailField(required=True)
     username = serializers.CharField(max_length=150, required=True)
     first_name = serializers.CharField(max_length=150, required=True)
@@ -59,6 +80,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class SignupSerializer(serializers.ModelSerializer):
+
+    """Serializer registration."""
     username = serializers.CharField(max_length=150)
     email = serializers.EmailField(max_length=254)
     banned_names = ('me', 'admin', 'ADMIN', 'administrator', 'moderator')
@@ -90,5 +113,7 @@ class SignupSerializer(serializers.ModelSerializer):
 
 
 class TokenSerializer(serializers.Serializer):
+
+    """TokenSerializer."""
     username = serializers.CharField(max_length=150)
     confirmation_code = serializers.CharField(max_length=24)

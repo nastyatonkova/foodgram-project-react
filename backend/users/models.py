@@ -52,6 +52,7 @@ class User(AbstractUser):
 
 
 class Subscriptions(models.Model):
+
     """User subscription model."""
     user = models.ForeignKey(
         User,

@@ -4,6 +4,7 @@ from users.models import User
 
 
 class Ingredient(models.Model):
+
     """Model of ingredients for recipes."""
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(
@@ -25,6 +26,7 @@ class Ingredient(models.Model):
 
 
 class Tag(models.Model):
+
     """Model of tags for recipes."""
     name = models.CharField(
         "Tag",
@@ -50,6 +52,7 @@ class Tag(models.Model):
 
 
 class Recipes(models.Model):
+
     """Prescription list table model."""
     name = models.CharField(
         "Recipe name",
@@ -101,6 +104,7 @@ class Recipes(models.Model):
 
 
 class IngredientInRecipe(models.Model):
+
     """Model for the number of products needed."""
     recipe = models.ForeignKey(
         to=Recipes,
@@ -127,6 +131,7 @@ class IngredientInRecipe(models.Model):
 
 
 class Favorite(models.Model):
+
     """Favorite Recipe Model."""
     author = models.ForeignKey(
         User,
@@ -145,6 +150,7 @@ class Favorite(models.Model):
 
 
 class Cart(models.Model):
+
     """Cart model."""
     author = models.ForeignKey(
         User,
