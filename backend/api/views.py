@@ -163,19 +163,19 @@ class RecipesViewSet(viewsets.ModelViewSet):
         text_cart = ""
         for value in get_cart:
             text_cart += (
-                value['ingredient__name'] + " (" +
-                value['ingredient__measurement_unit'] + ") — " +
-                str(value['amount__sum']) + "<br />"
+                value['ingredient__name'] + " ("
+                + value['ingredient__measurement_unit'] + ") — "
+                + str(value['amount__sum']) + "<br />"
             )
 
         pdf = SimpleDocTemplate(
             response,
             title=f"Список рецептов с сайта {SITE_NAME}",
             pagesize=A4,
-            rightMargin=2*cm,
-            leftMargin=2*cm,
-            topMargin=2*cm,
-            bottomMargin=2*cm
+            rightMargin=2 * cm,
+            leftMargin=2 * cm,
+            topMargin=2 * cm,
+            bottomMargin=2 * cm
         )
         styles = getSampleStyleSheet()
         styles.add(ParagraphStyle(

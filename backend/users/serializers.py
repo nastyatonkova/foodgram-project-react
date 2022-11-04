@@ -15,13 +15,11 @@ class UserShowSerializer(serializers.ModelSerializer):
 
     def get_is_subscribed(self, username):
         user = self.context["request"].user
-        if (not user.is_authenticated or
-            not Subscriptions.objects.filter(
-                user=user,
-                following=username
-                ).exists()):
-            return False
-        return True
+        return (not user.is_anonymous
+                and Subscriptions.objects.filter(
+                    user=user,
+                    following=username
+                ).exists())
 
     class Meta:
         model = User

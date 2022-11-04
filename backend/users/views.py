@@ -25,8 +25,8 @@ class CustomUserViewSet(UserViewSet):
     def subscribe(self, request, id=None):
         user = get_object_or_404(User, id=id)
         follow = Subscriptions.objects.filter(
-                user=request.user,
-                following=user
+            user=request.user,
+            following=user
         )
         if request.method == 'POST':
             if user == request.user:
