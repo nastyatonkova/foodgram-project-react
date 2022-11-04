@@ -1,7 +1,8 @@
-from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipes,
-                            Tag)
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
+
+from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipes,
+                            Tag)
 from users.models import User
 
 
@@ -95,12 +96,12 @@ class RecipesSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = (
-            'is_in_shopping_cart',
             'id',
             'tags',
             'author',
             'ingredients',
             'is_favorited',
+            'is_in_shopping_cart',
             'name',
             'image',
             'text',
