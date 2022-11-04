@@ -45,6 +45,9 @@ class Tag(models.Model):
         verbose_name = 'Tag'
         verbose_name_plural = 'Tags'
 
+    def __str__(self):
+        return self.name
+
 
 class Recipes(models.Model):
     """Prescription list table model."""
@@ -90,6 +93,11 @@ class Recipes(models.Model):
         ordering = ('-pub_date',)
         verbose_name = 'Recipe'
         verbose_name_plural = 'Recipes'
+
+    def display_tag(self):
+        return ', '.join(tags.name for tags in self.tags.all()[:3])
+
+    display_tag.short_description = 'Tag'
 
 
 class IngredientInRecipe(models.Model):
