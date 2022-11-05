@@ -1,21 +1,21 @@
+from api.filter import RecipesFilter
+from api.mixins import ViewOnlyViewSet
+from api.permissions import IsAuthorOrAdminOrModeratorPermission
+from api.serializers import (ActionsSerializer, IngredientsSerializer,
+                             RecipesSerializer, RecipesSerializerCreate,
+                             TagsSerializer)
+from api.utils import pdf_generate
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
+from recipes.models import (Cart, Favorite, Ingredient, IngredientInRecipe,
+                            Recipes, Tag)
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from api.filter import RecipesFilter
-from api.mixins import ViewOnlyViewSet
-from api.utils import pdf_generate
-from api.permissions import IsAuthorOrAdminOrModeratorPermission
-from api.serializers import (ActionsSerializer, IngredientsSerializer,
-                             RecipesSerializer, RecipesSerializerCreate,
-                             TagsSerializer)
-from recipes.models import (Cart, Favorite, Ingredient, IngredientInRecipe,
-                            Recipes, Tag)
 
 
 class IngredientFilter(SearchFilter):
@@ -134,7 +134,7 @@ class RecipesViewSet(viewsets.ModelViewSet):
 
     @action(
         detail=False,
-        methods=['GET',],
+        methods=['GET', ],
         permission_classes=[permissions.IsAuthenticatedOrReadOnly],
     )
     def download_shopping_cart(self, request):
