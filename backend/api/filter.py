@@ -1,16 +1,18 @@
-from django_filters import CharFilter, FilterSet
+from django_filters import FilterSet
 from django_filters import rest_framework as filters
-from recipes.models import Recipes
+from recipes.models import Recipes, Tag
 
 
 class RecipesFilter(FilterSet):
     """Filtering by author, tag, favorite, and added to cart."""
 
-    author = CharFilter(
+    author = filters.CharFilter(
         field_name='author__id',
     )
-    tags = CharFilter(
+    tags = filters.ModelMultipleChoiceFilter(
         field_name='tags__slug',
+        to_field_name='slug',
+        queryset=Tag.objects.all()
     )
     is_favorited = filters.BooleanFilter(
         method='favorited_filter'
