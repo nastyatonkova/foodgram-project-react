@@ -155,5 +155,9 @@ class SubShowSerializer(UserShowSerializer):
         return True
 
     def get_recipes(self, data):
-        recipes = data.following.recipes.all()[:5]
+        """Getting user recipes."""
+        limit = self.context.get('request').query_params.get('recipes_limit')
+        if not limit:
+            limit = 3
+        recipes = data.following.recipes.all()[:int(limit)]
         return RecipeSmallSerializer(recipes, many=True).data

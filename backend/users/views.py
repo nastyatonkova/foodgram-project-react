@@ -41,7 +41,6 @@ class CustomUserViewSet(UserViewSet):
                 error = {
                     'errors': 'You are already subscribed to this user.'
                 }
-                follow.delete()
                 return Response(error, status=status.HTTP_400_BAD_REQUEST)
             serializer = SubShowSerializer(obj, context={'request': request})
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -53,3 +52,19 @@ class CustomUserViewSet(UserViewSet):
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
         follow.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(
+        detail=False,
+        methods=["GET"],
+        permission_classes=[permissions.IsAuthenticatedOrReadOnly],
+    )
+    def subscriptions(self, request):
+        pages = self.paginate_queryset(
+            Subscriptions.objects.filter(user=request.user)
+        )
+
+        serializer = SubShowSerializer(
+            pages, many=True, context={'request': request}
+        )
+
+        return self.get_paginated_response(serializer.data)
