@@ -42,7 +42,7 @@ def pdf_generate(text, response):
 
     pdf = SimpleDocTemplate(
         response,
-        title=f'Список рецептов с сайта {SITE_NAME}',
+        title=f'List of recipes from the website {SITE_NAME}',
         pagesize=A4,
         rightMargin=2 * cm,
         leftMargin=2 * cm,
@@ -50,8 +50,8 @@ def pdf_generate(text, response):
         bottomMargin=2 * cm
     )
     pdf_generate = []
-    text_title = 'Ингридиенты:'
-    text_info = f'Этот список был сгенерирован на сайте <b>{SITE_NAME}</b>'
+    text_title = 'Ingredients:'
+    text_info = f'This list was generated on the website <b>{SITE_NAME}</b>'
     pdf_generate.append(Paragraph(text_info, styles['Ingredient']))
     pdf_generate.append(Spacer(1, 1))
     pdf_generate.append(Paragraph(text_title, styles['Top Recipe']))
