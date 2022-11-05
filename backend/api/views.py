@@ -32,16 +32,16 @@ class IngredientFilter(SearchFilter):
 
 
 class TagsViewSet(ViewOnlyViewSet):
-
     """Tag model processing viewset."""
+
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Tag.objects.all()
     serializer_class = TagsSerializer
 
 
 class IngredientsViewSet(ViewOnlyViewSet):
-
     """Ingredient model processing viewset."""
+
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Ingredient.objects.all()
     serializer_class = IngredientsSerializer
@@ -50,8 +50,8 @@ class IngredientsViewSet(ViewOnlyViewSet):
 
 
 class RecipesViewSet(viewsets.ModelViewSet):
-
     """Recipes model processing viewset."""
+
     queryset = Recipes.objects.all()
     pagination_class = PageNumberPagination
     permission_classes = (IsAuthorOrAdminOrModeratorPermission,)

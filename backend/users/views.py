@@ -10,8 +10,8 @@ from users.serializers import SubShowSerializer
 
 
 class CustomUserViewSet(UserViewSet):
-
     """Customized user viewset."""
+
     queryset = User.objects.all()
     pagination_class = PageNumberPagination
 

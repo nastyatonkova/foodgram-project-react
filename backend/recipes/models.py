@@ -3,8 +3,8 @@ from users.models import User
 
 
 class Ingredient(models.Model):
-
     """Model of ingredients for recipes."""
+
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(
         "Name of the ingredient",
@@ -25,8 +25,8 @@ class Ingredient(models.Model):
 
 
 class Tag(models.Model):
-
     """Model of tags for recipes."""
+
     name = models.CharField(
         "Tag",
         max_length=150,
@@ -51,8 +51,8 @@ class Tag(models.Model):
 
 
 class Recipes(models.Model):
-
     """Prescription list table model."""
+
     name = models.CharField(
         "Recipe name",
         max_length=200,
@@ -107,8 +107,8 @@ class Recipes(models.Model):
 
 
 class IngredientInRecipe(models.Model):
-
     """Model for the number of products needed."""
+
     recipe = models.ForeignKey(
         to=Recipes,
         verbose_name="Recipe",
@@ -134,8 +134,8 @@ class IngredientInRecipe(models.Model):
 
 
 class Favorite(models.Model):
-
     """Favorite Recipe Model."""
+
     author = models.ForeignKey(
         User,
         verbose_name='Subscribed',
@@ -153,8 +153,8 @@ class Favorite(models.Model):
 
 
 class Cart(models.Model):
-
     """Cart model."""
+
     author = models.ForeignKey(
         User,
         verbose_name='Subscribed',

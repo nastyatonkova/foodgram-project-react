@@ -4,8 +4,8 @@ from users.models import Subscriptions, User
 
 
 class UserShowSerializer(serializers.ModelSerializer):
-
     """Serializer to output user/user list."""
+
     email = serializers.EmailField(required=True)
     username = serializers.CharField(max_length=150, required=True)
     first_name = serializers.CharField(max_length=150, required=True)
@@ -33,8 +33,8 @@ class UserShowSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     """Basic custom user serializer with additional fields."""
+
     email = serializers.EmailField(required=True)
     username = serializers.CharField(max_length=150, required=True)
     first_name = serializers.CharField(max_length=150, required=True)
@@ -90,8 +90,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class SignupSerializer(serializers.ModelSerializer):
-
     """Serializer registration."""
+
     username = serializers.CharField(max_length=150)
     email = serializers.EmailField(max_length=254)
     banned_names = ('me', 'admin', 'ADMIN', 'administrator', 'moderator')
@@ -123,15 +123,15 @@ class SignupSerializer(serializers.ModelSerializer):
 
 
 class TokenSerializer(serializers.Serializer):
-
     """TokenSerializer."""
+
     username = serializers.CharField(max_length=150)
     confirmation_code = serializers.CharField(max_length=24)
 
 
 class SubShowSerializer(UserShowSerializer):
-
     """Serializer to output user/user list."""
+
     email = serializers.ReadOnlyField(source='following.email')
     username = serializers.ReadOnlyField(source='following.username')
     first_name = serializers.ReadOnlyField(source='following.first_name')

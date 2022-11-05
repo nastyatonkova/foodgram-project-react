@@ -23,24 +23,24 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     """User Serializer."""
+
     class Meta:
         model = User
         fields = ('email', 'id', 'username', 'first_name', 'last_name')
 
 
 class TagsSerializer(serializers.ModelSerializer):
-
     """Tag Serializer."""
+
     class Meta:
         model = Tag
         fields = '__all__'
 
 
 class IngredientsSerializer(serializers.ModelSerializer):
-
     """Ingredients Serializer."""
+
     class Meta:
         model = Ingredient
         fields = "__all__"
@@ -69,8 +69,8 @@ class FavoritedSerializer(serializers.ModelSerializer):
 
 
 class RecipesSerializer(serializers.ModelSerializer):
-
     """Recipes Serializer."""
+
     author = UserSerializer(
         many=False,
         read_only=True
@@ -124,8 +124,8 @@ class RecipeSmallSerializer(serializers.ModelSerializer):
 
 
 class RecipesSerializerCreate(serializers.ModelSerializer):
-
     """Recipe Creation Serializer."""
+
     author = UserSerializer(
         many=False,
         read_only=True
