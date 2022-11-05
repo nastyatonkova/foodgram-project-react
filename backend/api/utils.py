@@ -42,7 +42,7 @@ def pdf_generate(text, response):
 
     pdf = SimpleDocTemplate(
         response,
-        title=f'List of recipes from the website {SITE_NAME}',
+        title=f'List of recipes from the website: {SITE_NAME}',
         pagesize=A4,
         rightMargin=2 * cm,
         leftMargin=2 * cm,
