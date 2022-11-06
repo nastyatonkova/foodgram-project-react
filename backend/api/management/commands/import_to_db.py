@@ -4,7 +4,6 @@ import os
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db.utils import IntegrityError
-
 from recipes.models import Ingredient, Tag
 
 
@@ -47,7 +46,7 @@ class Command(BaseCommand):
                                                   measurement_unit=ingredient[
                                                       'measurement_unit'])
                     except IntegrityError:
-                        print(f'The database already has: {ingredient["name"]} '
+                        print(f'The database already has: {ingredient["name"]}'
                               f'({ingredient["measurement_unit"]})')
 
         except FileNotFoundError:
