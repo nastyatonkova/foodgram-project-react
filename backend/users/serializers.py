@@ -1,6 +1,6 @@
 from api.serializers import RecipeSmallSerializer
 from rest_framework import serializers
-from users.models import Subscriptions, User
+from users.models import Subscription, User
 
 
 class UserShowSerializer(serializers.ModelSerializer):
@@ -15,7 +15,7 @@ class UserShowSerializer(serializers.ModelSerializer):
     def get_is_subscribed(self, username):
         user = self.context["request"].user
         return (not user.is_anonymous
-                and Subscriptions.objects.filter(
+                and Subscription.objects.filter(
                     user=user,
                     following=username
                 ).exists())

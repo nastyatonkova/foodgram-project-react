@@ -5,7 +5,7 @@ from rest_framework import permissions, status
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from users.models import Subscriptions
+from users.models import Subscription
 from users.serializers import SubShowSerializer
 
 
@@ -23,7 +23,7 @@ class CustomUserViewSet(UserViewSet):
     )
     def subscribe(self, request, id=None):
         user = get_object_or_404(User, id=id)
-        follow = Subscriptions.objects.filter(
+        follow = Subscription.objects.filter(
             user=request.user,
             following=user
         )
@@ -33,7 +33,7 @@ class CustomUserViewSet(UserViewSet):
                     'errors': 'Are you trying to subscribe to yourself.'
                 }
                 return Response(error, status=status.HTTP_400_BAD_REQUEST)
-            obj, created = Subscriptions.objects.get_or_create(
+            obj, created = Subscription.objects.get_or_create(
                 user=request.user,
                 following=user
             )
@@ -60,7 +60,7 @@ class CustomUserViewSet(UserViewSet):
     )
     def subscriptions(self, request):
         pages = self.paginate_queryset(
-            Subscriptions.objects.filter(user=request.user)
+            Subscription.objects.filter(user=request.user)
         )
 
         serializer = SubShowSerializer(

@@ -82,3 +82,4 @@ jobs:
   #         sudo docker-compose exec -it backend python manage.py makemigrations
   #         sudo docker-compose exec -it backend python manage.py migrate
   #         sudo docker-compose exec backend python manage.py collectstatic --no-input
+  
