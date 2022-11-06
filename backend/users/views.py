@@ -17,8 +17,8 @@ class CustomUserViewSet(UserViewSet):
 
     @action(
         detail=True,
-        methods=["POST", "DELETE"],
-        url_path="subscribe",
+        methods=['POST', 'DELETE'],
+        url_path='subscribe',
         permission_classes=[permissions.IsAuthenticatedOrReadOnly],
     )
     def subscribe(self, request, id=None):
@@ -55,7 +55,7 @@ class CustomUserViewSet(UserViewSet):
 
     @action(
         detail=False,
-        methods=["GET"],
+        methods=['GET'],
         permission_classes=[permissions.IsAuthenticatedOrReadOnly],
     )
     def subscriptions(self, request):
