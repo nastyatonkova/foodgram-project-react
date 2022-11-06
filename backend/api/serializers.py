@@ -74,12 +74,6 @@ class IngredientWriteSerializer(serializers.ModelSerializer):
         return data
 
 
-class FavoritedSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Favorite
-        fields = '__all__'
-
-
 class RecipesSerializer(serializers.ModelSerializer):
     """Recipes serializer."""
 
@@ -104,13 +98,13 @@ class RecipesSerializer(serializers.ModelSerializer):
 
     def get_is_favorited(self, recipe):
         user = self.context['request'].user
-        return bool(not user.is_anonymous
-                    and recipe.favorite.filter(author=user).last())
+        return (not user.is_anonymous
+                and recipe.favorite.filter(author=user).exists())
 
     def get_is_in_shopping_cart(self, recipe):
         user = self.context['request'].user
-        return bool(not user.is_anonymous
-                    and not recipe.cart.filter(author=user).last())
+        return (not user.is_anonymous
+                and recipe.cart.filter(author=user).exists())
 
     class Meta:
         fields = (
@@ -195,7 +189,7 @@ class RecipesSerializerCreate(serializers.ModelSerializer):
 
         if not ingredients_data:
             raise serializers.ValidationError(
-                'Add at least one ingredient'
+                'Add at least one ingredient.'
             )
 
         ingredients_list = []
@@ -205,11 +199,11 @@ class RecipesSerializerCreate(serializers.ModelSerializer):
                 int(ingredient['amount'])
             except ValueError:
                 raise serializers.ValidationError(
-                    'The amount of ingredient can only be specified by number'
+                    'The amount of ingredient can only be specified by number.'
                 )
             if int(ingredient['amount']) <= 0:
                 raise serializers.ValidationError(
-                    'Specify the weight/quantity of ingredients'
+                    'Specify the weight/quantity of ingredients.'
                 )
 
             if not Ingredient.objects.filter(id=ingredient_id).exists():
@@ -218,7 +212,7 @@ class RecipesSerializerCreate(serializers.ModelSerializer):
                 )
             if ingredient_id in ingredients_list:
                 raise serializers.ValidationError(
-                    'The ingredients should not be repeated'
+                    'The ingredients should not be repeated.'
                 )
             ingredients_list.append(ingredient_id)
         return data

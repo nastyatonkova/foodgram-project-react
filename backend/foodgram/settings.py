@@ -68,6 +68,8 @@ DATABASES = {
     }
 }
 
+# For Postrgres - after review will use postgres on server
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': os.getenv('DB_ENGINE',
@@ -121,9 +123,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
-    # ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
@@ -133,7 +132,7 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.PageNumberPagination',
     ],
 
-    'PAGE_SIZE': 5,
+    'PAGE_SIZE': 6,
 }
 
 SIMPLE_JWT = {

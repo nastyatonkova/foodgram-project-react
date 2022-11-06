@@ -1,53 +1,28 @@
-import json
-import os
+import csv
 
-from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
+from django.apps import apps
+from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
-from recipes.models import Ingredient, Tag
 
 
 class Command(BaseCommand):
-    help = 'Import ingredients to DB from json'
+    help = "Import data from CSV file"
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            'ingredients',
-            default='ingredients.json',
-            nargs='?',
-            type=str)
-        parser.add_argument(
-            'tags',
-            default='tags.json',
-            nargs='?',
-            type=str)
+        parser.add_argument("--path", type=str, help="file path")
+        parser.add_argument("--model_name", type=str, help="model name")
 
     def handle(self, *args, **options):
-        try:
-            with open(os.path.join(
-                settings.MEDIA_ROOT + '/data/', options['tags']), 'r',
-                    encoding='utf-8') as f:
-                data_tags = json.load(f)
-                for tag in data_tags:
-                    try:
-                        Tag.objects.create(name=tag['name'],
-                                           color=tag['color'],
-                                           slug=tag['slug'])
-                    except IntegrityError:
-                        print(f'The database already has: {tag["name"]} ')
+        file_path = options["path"]
+        model = apps.get_model(options["model_name"])
 
-            with open(os.path.join(
-                settings.MEDIA_ROOT + '/data/', options['ingredients']), 'r',
-                    encoding='utf-8') as f:
-                data = json.load(f)
-                for ingredient in data:
-                    try:
-                        Ingredient.objects.create(name=ingredient['name'],
-                                                  measurement_unit=ingredient[
-                                                      'measurement_unit'])
-                    except IntegrityError:
-                        print(f'The database already has: {ingredient["name"]}'
-                              f'({ingredient["measurement_unit"]})')
-
-        except FileNotFoundError:
-            raise CommandError('File is not in the directory media/data')
+        with open(file_path, "r", encoding="utf-8") as file:
+            reader = csv.reader(file, delimiter=",")
+            header = reader.__next__()
+            for row in reader:
+                data = {key: value for key, value in zip(header, row)}
+                try:
+                    model.objects.create(**data)
+                except IntegrityError as err:
+                    line = ", ".join(row)
+                    self.stdout.write(f'Error! {err}, "{line}"')

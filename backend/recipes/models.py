@@ -25,6 +25,12 @@ class Ingredient(models.Model):
         ordering = ('name',)
         verbose_name = 'Ingredient'
         verbose_name_plural = 'Ingredients'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'measurement_unit'],
+                name='unique_ingredient'
+            )
+        ]
 
     def __str__(self):
         return self.name
@@ -146,7 +152,7 @@ class IngredientInRecipe(models.Model):
         'Number of ingredients',
         default=1,
         validators=(
-            MinValueValidator(0, 'Minimum'),
+            MinValueValidator(1, 'Minimum'),
         )
     )
 
@@ -154,6 +160,12 @@ class IngredientInRecipe(models.Model):
         ordering = ('ingredient',)
         verbose_name = 'Ingredient'
         verbose_name_plural = 'Ingredients'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['recipe', 'ingredient'],
+                name='unique_ingredient_on_recipe'
+            )
+        ]
 
     def __str__(self):
         return f'{self.ingredient.name} {self.recipe.name}'
