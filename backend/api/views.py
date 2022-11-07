@@ -1,6 +1,6 @@
 from api.filter import RecipesFilter
 from api.mixins import ViewOnlyViewSet
-from api.permissions import IsAuthorOrAdminOrModeratorPermission
+from api.permissions import IsAuthorOrAdminOrReadOnly
 from api.serializers import (ActionsSerializer, IngredientsSerializer,
                              RecipesSerializer, RecipesSerializerCreate,
                              TagsSerializer)
@@ -45,7 +45,7 @@ class RecipesViewSet(viewsets.ModelViewSet):
 
     queryset = Recipes.objects.all()
     pagination_class = PageNumberPagination
-    permission_classes = (IsAuthorOrAdminOrModeratorPermission,)
+    permission_classes = (IsAuthorOrAdminOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipesFilter
 
