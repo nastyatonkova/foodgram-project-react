@@ -1,6 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from users.models import User
+
+
+User = get_user_model()
 
 
 class Ingredient(models.Model):
@@ -15,10 +18,6 @@ class Ingredient(models.Model):
     measurement_unit = models.CharField(
         'Unit of measure',
         max_length=150,
-        validators=(
-            MinValueValidator(1, 'Minimum unit of measurement'),
-            MaxValueValidator(9999, 'Maximum unit of measurement')
-        ),
     )
 
     class Meta:
@@ -39,14 +38,27 @@ class Ingredient(models.Model):
 class Tag(models.Model):
     """Model of tags for recipes."""
 
+    ORANGE = '#E26C2D'
+    GREEN = '#49B64E'
+    PURPLE = '#8775D2'
+
+    HEX_CHOICES = [
+        ('#E26C2D', ORANGE),
+        ('#49B64E', GREEN),
+        ('#8775D2', PURPLE),
+    ]
+
     name = models.CharField(
         'Tag',
         max_length=150,
+        db_index=True,
         unique=True,
     )
     color = models.CharField(
-        'Unit of measure',
-        max_length=50,
+        'Color HEX-code',
+        max_length=7,
+        unique=True,
+        choices=HEX_CHOICES,
     )
     slug = models.SlugField(
         'Slug',
@@ -58,12 +70,6 @@ class Tag(models.Model):
         ordering = ('name',)
         verbose_name = 'Tag'
         verbose_name_plural = 'Tags'
-        constraints = (
-            models.UniqueConstraint(
-                fields=('name', 'slug'),
-                name='unique_tag',
-            ),
-        )
 
     def __str__(self):
         return self.name
@@ -96,6 +102,10 @@ class Recipes(models.Model):
         'Recipe description',
         blank=True,
         null=True,
+        validators=(
+            MinValueValidator(1, 'Minimum text size'),
+            MaxValueValidator(9999, 'Maximum text size')
+        ),
     )
     cooking_time = models.PositiveSmallIntegerField(
         'Cooking time (in minutes)',
