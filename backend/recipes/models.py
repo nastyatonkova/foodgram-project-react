@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import (MaxLengthValidator, MaxValueValidator,
+                                    MinValueValidator, RegexValidator)
 from django.db import models
 
 
@@ -38,16 +39,6 @@ class Ingredient(models.Model):
 class Tag(models.Model):
     """Model of tags for recipes."""
 
-    ORANGE = '#E26C2D'
-    GREEN = '#49B64E'
-    PURPLE = '#8775D2'
-
-    HEX_CHOICES = [
-        ('#E26C2D', ORANGE),
-        ('#49B64E', GREEN),
-        ('#8775D2', PURPLE),
-    ]
-
     name = models.CharField(
         'Tag',
         max_length=150,
@@ -55,10 +46,15 @@ class Tag(models.Model):
         unique=True,
     )
     color = models.CharField(
-        'Color HEX-code',
-        max_length=7,
+        verbose_name='Color hex-code',
         unique=True,
-        choices=HEX_CHOICES,
+        max_length=7,
+        validators=[
+            RegexValidator(
+                regex='^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$',
+                message='The value entered is not a color in hex-format'
+            ),
+        ]
     )
     slug = models.SlugField(
         'Slug',
@@ -102,20 +98,20 @@ class Recipes(models.Model):
         'Recipe description',
         blank=True,
         null=True,
-        validators=(
-            MinValueValidator(1, 'Minimum text size'),
-            MaxValueValidator(9999, 'Maximum text size')
-        ),
+        validators=[
+            MaxLengthValidator(500, 'Maximum length of text')
+        ],
     )
     cooking_time = models.PositiveSmallIntegerField(
         'Cooking time (in minutes)',
         blank=True,
         null=True,
-        validators=(
+        validators=[
             MinValueValidator(1, 'Minimum cooking time'),
             MaxValueValidator(240, 'Maximum cooking time')
-        ),
+        ],
     )
+
     author = models.ForeignKey(
         User,
         verbose_name='Recipe author',
@@ -161,9 +157,9 @@ class IngredientInRecipe(models.Model):
     amount = models.PositiveIntegerField(
         'Number of ingredients',
         default=1,
-        validators=(
+        validators=[
             MinValueValidator(1, 'Minimum'),
-        )
+        ]
     )
 
     class Meta:
