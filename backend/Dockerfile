@@ -2,10 +2,12 @@ FROM python:3.8
 
 WORKDIR /app
 
-COPY backend/requirements.txt ./
+COPY requirements.txt .
 
-RUN pip3 install -r requirements.txt --no-cache-dir
+RUN pip install --upgrade pip
 
-COPY backend/ ./
+RUN pip3 install -r ./requirements.txt --no-cache-dir
 
-CMD ["gunicorn", "foodgram.wsgi:application", "--bind", "0:8000" ]
+COPY . .
+
+CMD ["gunicorn", "foodgram.wsgi:application", "--bind", "0.0.0.0:8000" ]
