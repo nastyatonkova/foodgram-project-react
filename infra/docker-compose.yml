@@ -18,7 +18,7 @@ services:
     env_file:
       - ./.env
   frontend:
-    image: hyperbrake/foodgram_front:latest
+    image: atonkova/foodgram:latest
     volumes:
       - ../frontend/:/app/result_build/
       - static_value:/var/html/static/
