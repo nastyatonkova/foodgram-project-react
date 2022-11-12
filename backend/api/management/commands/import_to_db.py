@@ -4,7 +4,7 @@ import os
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db.utils import IntegrityError
-from recipes.models import Ingredient, Tag
+from recipes.models import Ingredient
 
 
 class Command(BaseCommand):
@@ -16,26 +16,9 @@ class Command(BaseCommand):
             default='ingredients.json',
             nargs='?',
             type=str)
-        parser.add_argument(
-            'tags',
-            default='tags.json',
-            nargs='?',
-            type=str)
 
     def handle(self, *args, **options):
         try:
-            with open(os.path.join(
-                settings.MEDIA_ROOT + '/data/', options['tags']), 'r',
-                    encoding='utf-8') as f:
-                data_tags = json.load(f)
-                for tag in data_tags:
-                    try:
-                        Tag.objects.create(name=tag['name'],
-                                           color=tag['color'],
-                                           slug=tag['slug'])
-                    except IntegrityError:
-                        print(f'The database already has: {tag["name"]} ')
-
             with open(os.path.join(
                 settings.MEDIA_ROOT + '/data/', options['ingredients']), 'r',
                     encoding='utf-8') as f:
