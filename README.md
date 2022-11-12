@@ -126,8 +126,6 @@ TELEGRAM_TOKEN=<<<your bot's token>>>
 SSH_KEY=<<<SSH private key, can be obtained by running the command on the local machine: cat ~/.ssh/id_rsa>>>
 ```
 
-```
-
 ***
 ### After deploy
 
