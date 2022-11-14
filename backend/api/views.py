@@ -153,6 +153,6 @@ class RecipesViewSet(viewsets.ModelViewSet):
             text_cart += (
                 value['ingredient__name'] + ' - '
                 + str(value['amount__sum']) + ' '
-                + value['ingredient__measurement_unit'] + '.\n'
+                + value['ingredient__measurement_unit'] + '<br />'
             )
         return pdf_generate(text_cart, response)
