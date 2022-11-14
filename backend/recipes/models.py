@@ -99,7 +99,7 @@ class Recipes(models.Model):
         blank=True,
         null=True,
         validators=[
-            MaxLengthValidator(500, 'Maximum length of text')
+            MaxLengthValidator(9999, 'Maximum length of text')
         ],
     )
     cooking_time = models.PositiveSmallIntegerField(
