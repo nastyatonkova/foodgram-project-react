@@ -145,7 +145,7 @@ class RecipesViewSet(viewsets.ModelViewSet):
             'amount',
             'ingredient__measurement_unit'
         ).annotate(
-            Sum('amount')
+            amount__sum=Sum('amount')
         )
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment;'
